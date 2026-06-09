@@ -42,7 +42,7 @@ const OUTCOME_CONFIG = {
 const AGENT_COLORS = {
   A2_FNOL_Intake: { color: '#06B6D4', label: 'A2 — FNOL Intake' },
   A3_Coverage_Verification: { color: '#4F46E5', label: 'A3 — Coverage Verify' },
-  A4_Damage_Assessment: { color: '#10B981', label: 'A4 — Damage Assessment' },
+  A4_Damage_Assessment: { color: '#10B981', label: 'A4 — Medical Expense Assessment' },
   A5_Fraud_Risk_Scoring: { color: '#F59E0B', label: 'A5 — Fraud Scoring' },
   A6_Settlement: { color: '#10B981', label: 'A6 — Settlement' },
   A7_Adjuster_Handoff: { color: '#EF4444', label: 'A7 — Adjuster Handoff' },

@@ -26,7 +26,7 @@ const PIPELINE_STEPS = [
 const STEP_LABEL = {
   fnol_received:         'FNOL Intake',
   coverage_verification: 'Coverage Verify',
-  damage_assessment:     'Damage Assessment',
+  damage_assessment:     'Medical Bill Evaluation',
   fraud_scoring:         'Fraud Scoring',
   settlement_pending:    'Settlement',
   settled:               'Settled',
