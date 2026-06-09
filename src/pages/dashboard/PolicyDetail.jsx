@@ -205,11 +205,16 @@ export default function PolicyDetail() {
   const [error, setError] = useState(null)
   const [tab, setTab] = useState('view')
   const [category, setCategory] = useState('summary')
+  const [claims, setClaims] = useState([])
 
   useEffect(() => {
     api.get(`/policies/${id}`)
       .then(r => { setPolicy(r.data); setLoading(false) })
       .catch(e => { setError(e?.response?.data?.detail || 'Failed to load'); setLoading(false) })
+
+    api.get(`/policies/${id}/claims`)
+      .then(r => setClaims(r.data))
+      .catch(e => console.error("Failed to load claims history:", e))
   }, [id])
 
   if (loading) return <LoadingState label="Loading policy…" />
@@ -249,6 +254,7 @@ export default function PolicyDetail() {
     { key: 'claims',     label: 'Claim Limits & Rules',  icon: CheckCircle2 },
     { key: 'benefits',   label: 'Benefits & Diseases',   icon: Shield },
     { key: 'support',    label: 'Support & Compliance',  icon: Building2 },
+    { key: 'claims_history', label: 'Claims History',    icon: CheckCircle2 },
   ]
 
   return (
@@ -1109,6 +1115,83 @@ export default function PolicyDetail() {
                         </div>
                       </div>
                     </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {category === 'claims_history' && (
+              <div style={{ background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, padding:'18px 20px' }}>
+                <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:16, borderBottom:'1px solid rgba(255,255,255,0.06)', paddingBottom:12 }}>
+                  <Activity size={16} color="var(--accent)" />
+                  <span style={{ fontWeight:700, fontSize:'0.88rem', color:'var(--text)' }}>Claims History for this Policy</span>
+                </div>
+
+                {claims.length > 0 ? (
+                  <div style={{ overflowX: 'auto', background: 'rgba(0, 0, 0, 0.15)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', textAlign: 'left' }}>
+                      <thead>
+                        <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
+                          <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Claim Number</th>
+                          <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Claim Type</th>
+                          <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Incident Date</th>
+                          <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Status</th>
+                          <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Settled Payout</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {claims.map((c, idx) => {
+                          const STATUS_LABEL = {
+                            fnol_received:         'FNOL Received',
+                            coverage_verification: 'Verifying Coverage',
+                            damage_assessment:     'Assessing Damage',
+                            fraud_scoring:         'Fraud Scoring',
+                            settlement_pending:    'Settlement Pending',
+                            settled:               'Settled',
+                            escalated_adjuster:    'With Adjuster',
+                            escalated_siu:         'Pending for SIU Observation',
+                            rejected:              'Rejected',
+                            closed:                'Closed',
+                            documents_required:    'Documents Required ⚠️',
+                          }
+                          const STATUS_CLS = {
+                            settled: 'badge-success', closed: 'badge-success',
+                            rejected: 'badge-danger', escalated_adjuster: 'badge-danger', escalated_siu: 'badge-danger',
+                          }
+                          return (
+                            <tr key={c.id} style={{ borderBottom: idx < claims.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                              <td style={{ padding: '10px 14px', fontWeight: 600 }}>
+                                <a 
+                                  href={`/dashboard/claims/${c.id}`} 
+                                  onClick={(e) => { e.preventDefault(); navigate(`/dashboard/claims/${c.id}`); }}
+                                  style={{ color: 'var(--accent)', textDecoration: 'none', cursor: 'pointer' }}
+                                >
+                                  {c.claim_number}
+                                </a>
+                              </td>
+                              <td style={{ padding: '10px 14px', color: 'var(--text)', textTransform: 'capitalize' }}>
+                                {c.claim_type.replace(/_/g, ' ')}
+                              </td>
+                              <td style={{ padding: '10px 14px', color: 'var(--text-muted)' }}>
+                                {expFmt(c.incident_date)}
+                              </td>
+                              <td style={{ padding: '10px 14px' }}>
+                                <span className={`badge ${STATUS_CLS[c.status] || 'badge-info'}`} style={{ fontSize: '0.7rem' }}>
+                                  {STATUS_LABEL[c.status] || c.status}
+                                </span>
+                              </td>
+                              <td style={{ padding: '10px 14px', color: 'var(--primary-light)', fontWeight: 600 }}>
+                                {moneyFmt(c.settled_amount)}
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div style={{ textAlign:'center', padding:'32px 0', color:'var(--text-dim)', fontSize:'0.82rem' }}>
+                    No claims have been filed under this policy yet.
                   </div>
                 )}
               </div>

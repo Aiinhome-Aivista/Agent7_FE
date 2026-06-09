@@ -356,6 +356,26 @@ export default function ClaimDetail() {
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: 2 }}>
                         {categoryLabels[doc.category] || doc.category}
                       </div>
+                      {doc.category === 'id_card' && doc.extracted_data && (
+                        <div style={{ marginTop: 6 }}>
+                          {doc.extracted_data.id_verified ? (
+                            <span style={{ background: 'rgba(16,185,129,0.12)', color: '#10B981', padding: '2px 8px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 600 }}>
+                              ✓ Identity Verified
+                            </span>
+                          ) : (
+                            <div>
+                              <div style={{ background: 'rgba(239,68,68,0.12)', color: '#EF4444', padding: '2px 8px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 600, display: 'inline-block', marginBottom: 4 }}>
+                                ⚠️ Identity Mismatch
+                              </div>
+                              {doc.extracted_data.reasons && doc.extracted_data.reasons.map((reason, rIdx) => (
+                                <div key={rIdx} style={{ fontSize: '0.68rem', color: '#EF4444', marginTop: 2, lineHeight: 1.3 }}>
+                                  • {reason}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <a
