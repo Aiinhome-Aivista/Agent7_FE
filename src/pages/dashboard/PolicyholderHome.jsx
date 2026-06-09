@@ -262,6 +262,7 @@ export default function PolicyholderHome() {
                               <tr>
                                 <th>Claim #</th>
                                 <th>Type</th>
+                                <th>Incident Date</th>
                                 <th>Date Filed</th>
                                 <th>Priority</th>
                                 <th>Status</th>
@@ -271,14 +272,18 @@ export default function PolicyholderHome() {
                             <tbody>
                               {policyClaims.map(c => {
                                 const st = STATUS_CONFIG[c.status] || { label: c.status, cls: 'badge-info' }
-                                const dateStr = c.incident_date
+                                const incidentDateStr = c.incident_date
                                   ? new Date(c.incident_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+                                  : '—'
+                                const filedDateStr = c.created_at
+                                  ? new Date(c.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
                                   : '—'
                                 return (
                                   <tr key={c.id}>
                                     <td><code style={{ color: 'var(--primary-light)', fontSize: '0.82rem' }}>{c.claim_number}</code></td>
                                     <td style={{ textTransform: 'capitalize' }}>{c.claim_type.replace(/_/g, ' ')}</td>
-                                    <td style={{ color: 'var(--text-muted)' }}>{dateStr}</td>
+                                    <td style={{ color: 'var(--text-muted)' }}>{incidentDateStr}</td>
+                                    <td style={{ color: 'var(--text-muted)' }}>{filedDateStr}</td>
                                     <td>
                                       <span style={{
                                         color: PRIORITY_COLOR[c.priority] || 'var(--text-muted)',

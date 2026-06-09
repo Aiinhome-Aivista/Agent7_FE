@@ -100,7 +100,7 @@ export default function AdjusterHome() {
             <table className="dash-table">
               <thead>
                 <tr>
-                  <th>Claim #</th><th>Type</th><th>Incident Date</th>
+                  <th>Claim #</th><th>Type</th><th>Incident Date</th><th>Initiated Date</th>
                   <th>Priority</th><th>Status</th><th>Action</th>
                 </tr>
               </thead>
@@ -114,6 +114,7 @@ export default function AdjusterHome() {
                         {(c.claim_type || '').replace(/_/g,' ')}
                       </td>
                       <td style={{ color:'var(--text-muted)', fontSize:'0.82rem' }}>{fmt(c.incident_date)}</td>
+                      <td style={{ color:'var(--text-muted)', fontSize:'0.82rem' }}>{fmt(c.created_at)}</td>
                       <td><span className={`badge ${p.cls}`}>{p.label}</span></td>
                       <td><span className="badge badge-warning">Escalated — Adjuster</span></td>
                       <td>

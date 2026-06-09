@@ -1135,6 +1135,7 @@ export default function PolicyDetail() {
                           <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Claim Number</th>
                           <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Claim Type</th>
                           <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Incident Date</th>
+                          <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Initiated Date</th>
                           <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Status</th>
                           <th style={{ padding: '10px 14px', color: 'var(--text-dim)' }}>Settled Payout</th>
                         </tr>
@@ -1174,6 +1175,9 @@ export default function PolicyDetail() {
                               </td>
                               <td style={{ padding: '10px 14px', color: 'var(--text-muted)' }}>
                                 {expFmt(c.incident_date)}
+                              </td>
+                              <td style={{ padding: '10px 14px', color: 'var(--text-muted)' }}>
+                                {c.created_at ? expFmt(c.created_at) : '—'}
                               </td>
                               <td style={{ padding: '10px 14px' }}>
                                 <span className={`badge ${STATUS_CLS[c.status] || 'badge-info'}`} style={{ fontSize: '0.7rem' }}>

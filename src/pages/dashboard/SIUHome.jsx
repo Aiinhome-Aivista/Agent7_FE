@@ -119,7 +119,7 @@ export default function SIUHome() {
             <table className="dash-table">
               <thead>
                 <tr>
-                  <th>Claim #</th><th>Type</th><th>Incident Date</th>
+                  <th>Claim #</th><th>Type</th><th>Incident Date</th><th>Initiated Date</th>
                   <th>Fraud Score</th><th>Risk Level</th><th>Red Flags</th><th>Action</th>
                 </tr>
               </thead>
@@ -137,6 +137,7 @@ export default function SIUHome() {
                         {(c.claim_type || '').replace(/_/g,' ')}
                       </td>
                       <td style={{ color:'var(--text-muted)', fontSize:'0.82rem' }}>{fmt(c.incident_date)}</td>
+                      <td style={{ color:'var(--text-muted)', fontSize:'0.82rem' }}>{fmt(c.created_at)}</td>
                       <td>
                         {score !== null ? (
                           <div style={{ display:'flex', alignItems:'center', gap:8 }}>

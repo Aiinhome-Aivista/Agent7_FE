@@ -179,7 +179,7 @@ export default function ClaimsList() {
                         <table className="dash-table">
                           <thead>
                             <tr>
-                              <th>Claim #</th><th>Type</th><th>Incident Date</th>
+                              <th>Claim #</th><th>Type</th><th>Incident Date</th><th>Initiated Date</th>
                               <th>Channel</th><th>Priority</th><th>Status</th><th></th>
                             </tr>
                           </thead>
@@ -192,6 +192,9 @@ export default function ClaimsList() {
                                   <td style={{ textTransform: 'capitalize' }}>{c.claim_type.replace(/_/g, ' ')}</td>
                                   <td style={{ color: 'var(--text-muted)' }}>
                                     {c.incident_date ? new Date(c.incident_date).toLocaleDateString('en-IN') : '—'}
+                                  </td>
+                                  <td style={{ color: 'var(--text-muted)' }}>
+                                    {c.created_at ? new Date(c.created_at).toLocaleDateString('en-IN') : '—'}
                                   </td>
                                   <td style={{ color: 'var(--text-muted)', textTransform: 'capitalize' }}>{c.channel}</td>
                                   <td>
