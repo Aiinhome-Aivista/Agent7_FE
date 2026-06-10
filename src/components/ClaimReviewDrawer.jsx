@@ -49,10 +49,12 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
   const [showRequestInput, setShowRequestInput] = useState(false)
   const [requestMessage,   setRequestMessage]   = useState('')
   const [documents,        setDocuments]        = useState([])
+  const [aiRecommendation, setAiRecommendation] = useState(null)
+  const [recommendLoading, setRecommendLoading] = useState(false)
 
   useEffect(() => {
     if (!claimId) return
-    setLoading(true); setClaim(null); setPipeline(null); setNotes(''); setShowPartialInput(false); setCustomAmount(''); setDocuments([])
+    setLoading(true); setClaim(null); setPipeline(null); setNotes(''); setShowPartialInput(false); setCustomAmount(''); setDocuments([]); setAiRecommendation(null)
     Promise.all([
       api.get(`/claims/${claimId}`),
       api.get(`/fnol/${claimId}/pipeline`).catch(() => ({ data: null })),
@@ -91,6 +93,21 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
     } catch (e) {
       toast.error(e?.response?.data?.detail || 'Action failed')
     } finally { setActing(null) }
+  }
+
+  async function fetchAIRecommendation() {
+    setRecommendLoading(true)
+    try {
+      const res = await api.post(`/claims/${claimId}/recommend-partial`)
+      setAiRecommendation(res.data)
+      setCustomAmount(res.data.recommended_amount.toString())
+      setNotes(res.data.explanation)
+      toast.success("AI suggestion generated!")
+    } catch (e) {
+      toast.error(e?.response?.data?.detail || 'Failed to fetch AI recommendation')
+    } finally {
+      setRecommendLoading(false)
+    }
   }
 
   async function handleRequestDocuments() {
@@ -426,10 +443,11 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
                           <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                             {user?.role === 'adjuster' ? 'Recommended Amount (₹)' : 'Settlement Amount (₹)'}
                           </span>
-                          {(fraudRes.recommended_payout !== undefined ? fraudRes.recommended_payout : dmgRes.net_estimate) && (
+                          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                             <button
                               type="button"
-                              onClick={() => setCustomAmount((fraudRes.recommended_payout !== undefined ? fraudRes.recommended_payout : dmgRes.net_estimate).toString())}
+                              onClick={fetchAIRecommendation}
+                              disabled={recommendLoading}
                               style={{
                                 background: 'none',
                                 border: 'none',
@@ -438,12 +456,34 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
                                 fontWeight: 600,
                                 cursor: 'pointer',
                                 padding: 0,
-                                textDecoration: 'underline'
+                                textDecoration: 'underline',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 3
                               }}
                             >
-                              Use AI Recommended (₹{Number(fraudRes.recommended_payout !== undefined ? fraudRes.recommended_payout : dmgRes.net_estimate).toLocaleString('en-IN')})
+                              {recommendLoading ? <Loader2 size={10} className="spin"/> : <Zap size={10}/>} AI Suggest
                             </button>
-                          )}
+                            <span style={{ color: 'rgba(255,255,255,0.15)', fontSize: '0.75rem' }}>|</span>
+                            {(fraudRes.recommended_payout !== undefined ? fraudRes.recommended_payout : dmgRes.net_estimate) && (
+                              <button
+                                type="button"
+                                onClick={() => setCustomAmount((fraudRes.recommended_payout !== undefined ? fraudRes.recommended_payout : dmgRes.net_estimate).toString())}
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  color: 'var(--primary-light)',
+                                  fontSize: '0.72rem',
+                                  fontWeight: 600,
+                                  cursor: 'pointer',
+                                  padding: 0,
+                                  textDecoration: 'underline'
+                                }}
+                              >
+                                Use Rule-based (₹{Number(fraudRes.recommended_payout !== undefined ? fraudRes.recommended_payout : dmgRes.net_estimate).toLocaleString('en-IN')})
+                              </button>
+                            )}
+                          </div>
                         </div>
                         <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                           <span style={{ position: 'absolute', left: 12, color: 'var(--text-dim)', fontSize: '0.9rem', fontWeight: 600 }}>₹</span>
@@ -468,6 +508,19 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
                             }}
                           />
                         </div>
+                        {aiRecommendation && (
+                          <div style={{
+                            padding: '8px 10px',
+                            background: 'rgba(99,102,241,0.08)',
+                            border: '1px dashed rgba(99,102,241,0.3)',
+                            borderRadius: 6,
+                            fontSize: '0.78rem',
+                            color: 'var(--text-muted)',
+                            lineHeight: 1.4
+                          }}>
+                            💡 AI Recommended: <strong style={{ color: '#F59E0B' }}>{aiRecommendation.recommended_percentage}%</strong> payout (₹{Number(aiRecommendation.recommended_amount).toLocaleString('en-IN')})
+                          </div>
+                        )}
                         <button
                           type="button"
                           className="btn-primary"
