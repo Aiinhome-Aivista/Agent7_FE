@@ -102,7 +102,7 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
       setAiRecommendation(res.data)
       setCustomAmount(res.data.recommended_amount.toString())
       setNotes(res.data.explanation)
-      toast.success("AI suggestion generated!")
+      toast.success("ClaimAI suggestion generated!")
     } catch (e) {
       toast.error(e?.response?.data?.detail || 'Failed to fetch AI recommendation')
     } finally {
@@ -462,7 +462,7 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
                                 gap: 3
                               }}
                             >
-                              {recommendLoading ? <Loader2 size={10} className="spin"/> : <Zap size={10}/>} AI Suggest
+                              {recommendLoading ? <Loader2 size={10} className="spin"/> : <Zap size={10}/>} ClaimAI Suggest
                             </button>
                             <span style={{ color: 'rgba(255,255,255,0.15)', fontSize: '0.75rem' }}>|</span>
                             {(fraudRes.recommended_payout !== undefined ? fraudRes.recommended_payout : dmgRes.net_estimate) && (
@@ -518,7 +518,7 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
                             color: 'var(--text-muted)',
                             lineHeight: 1.4
                           }}>
-                            💡 AI Recommended: <strong style={{ color: '#F59E0B' }}>{aiRecommendation.recommended_percentage}%</strong> payout (₹{Number(aiRecommendation.recommended_amount).toLocaleString('en-IN')})
+                            💡 ClaimAI Recommended: <strong style={{ color: '#F59E0B' }}>{aiRecommendation.recommended_percentage}%</strong> payout (₹{Number(aiRecommendation.recommended_amount).toLocaleString('en-IN')})
                           </div>
                         )}
                         <button
