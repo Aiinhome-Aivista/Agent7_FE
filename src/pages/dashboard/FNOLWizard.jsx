@@ -298,7 +298,7 @@ if (res.data?.missing_categories?.length > 0) {
         }}>
           <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '40px 60px', textAlign: 'center' }}>
             <Loader2 size={40} color="#4F46E5" className="spin" style={{ marginBottom: 16 }} />
-            <div style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: 8 }}>Running AI Pipeline…</div>
+            <div style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: 8 }}>Running ClaimAI Pipeline…</div>
             <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>A2 → A3 → A4 → A5 → A6/A7 agents processing your claim</div>
           </div>
         </motion.div>
