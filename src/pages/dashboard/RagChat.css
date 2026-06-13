@@ -516,3 +516,15 @@
   color: #ffffff;
   font-weight: 600;
 }
+
+.message-text a {
+  color: #818cf8;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.message-text a:hover {
+  color: #a5b4fc;
+}
