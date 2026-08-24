@@ -3,7 +3,7 @@ import { useAuthStore } from '../store/authStore'
 
 // VITE_API_URL in .env.local overrides this (e.g. http://192.168.1.x:8000/api)
 // Default: direct to FastAPI so it works with OR without the Vite proxy
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://187.127.163.17:3032/api'
 
 const api = axios.create({
   baseURL: BASE_URL,
