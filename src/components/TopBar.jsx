@@ -1,12 +1,25 @@
-import { useEffect } from 'react'
-import { Bell, Search } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Bell, Search, Moon, Sun } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useNotificationsStore } from '../store/notificationsStore'
+import { Button } from './ui/Button'
+import { Input } from './ui/Input'
 import './TopBar.css'
 
 export default function TopBar({ user }) {
   const navigate = useNavigate()
   const { unreadCount, fetchNotifications } = useNotificationsStore()
+  
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'))
+
+  const toggleTheme = () => {
+    setIsDark(!isDark)
+    if (!isDark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }
 
   const ROLE_LABEL = {
     policyholder:    'Claimant Portal',
@@ -30,13 +43,19 @@ export default function TopBar({ user }) {
       </div>
       <div className="topbar-right">
         <div className="topbar-search">
-          <Search size={14} color="var(--text-dim)"/>
-          <input placeholder="Search claims…" />
+          <Search size={14} className="text-muted-foreground"/>
+          <input placeholder="Search claims…" className="pl-8 h-9 bg-transparent border-none shadow-none focus:border-border focus:bg-background" />
         </div>
         <button 
-          className="topbar-icon-btn" 
+          className="topbar-icon-btn"
+          onClick={toggleTheme}
+          title="Toggle Theme"
+        >
+          {isDark ? <Sun size={18}/> : <Moon size={18}/>}
+        </button>
+        <button 
+          className="topbar-icon-btn"
           onClick={() => navigate('/dashboard/notifications')}
-          style={{ cursor: 'pointer' }}
         >
           <Bell size={18}/>
           {unreadCount > 0 && (

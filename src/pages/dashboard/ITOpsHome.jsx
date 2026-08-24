@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { Activity, Server, Cpu, MemoryStick, AlertTriangle, CheckCircle2, Clock } from 'lucide-react'
+import { Activity, Server, Cpu, MemoryStick, AlertTriangle, CheckCircle2, Clock, Database, Cloud, Network, ShieldCheck, TrendingUp } from 'lucide-react'
+import { Card } from '../../components/ui/Card'
 
 const SERVICES = [
   { name:'API Gateway',           status:'healthy',  ping:45,   err:0.10, cpu:22.5, mem:41.0 },
@@ -55,13 +56,13 @@ export default function ITOpsHome() {
 
       <motion.div variants={fadeUp} className="stats-grid">
         {stats.map(s => (
-          <div key={s.label} className="stat-card">
+          <Card key={s.label} className="stat-card border-none bg-card/50">
             <div className="stat-card-icon" style={{ background:s.bg }}>
               <s.icon size={20} color={s.color}/>
             </div>
             <div className="stat-value" style={{ color:s.color }}>{s.value}</div>
             <div className="stat-label">{s.label}</div>
-          </div>
+          </Card>
         ))}
       </motion.div>
 

@@ -6,6 +6,7 @@ import { useClaims } from '../../hooks/useClaims'
 import { LoadingState, ErrorState, EmptyState } from '../../components/StateViews'
 import { useAuthStore } from '../../store/authStore'
 import api from '../../services/api'
+import { Card } from '../../components/ui/Card'
 
 const PRIORITY_COLOR = {
   low:      '#10B981',
@@ -135,16 +136,15 @@ export default function PolicyholderHome() {
       {/* Stat cards */}
       <motion.div variants={fadeUp} className="stats-grid">
         {statCards.map(s => (
-          <div key={s.label} className="stat-card"
-            onClick={s.onClick}
-            style={{ cursor: s.onClick ? 'pointer' : 'default' }}
-          >
-            <div className="stat-card-icon" style={{ background: s.bg }}>
-              <s.icon size={20} color={s.color}/>
+          <Card key={s.label} className="stat-card border-none bg-card/50" onClick={s.onClick} style={{ cursor: s.onClick ? 'pointer' : 'default' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+              <div className="stat-card-icon" style={{ background: s.bg }}>
+                <s.icon size={20} color={s.color} />
+              </div>
             </div>
-            <div className="stat-value" style={{ color: s.color }}>{s.value}</div>
-            <div className="stat-label">{s.label}</div>
-          </div>
+            <div className="stat-label" style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>{s.label}</div>
+            <div className="stat-value" style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text)' }}>{s.value}</div>
+          </Card>
         ))}
       </motion.div>
 

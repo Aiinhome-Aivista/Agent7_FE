@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Card } from '../../components/ui/Card'
 import { motion } from 'framer-motion'
 import {
   Plus, Shield, Calendar, DollarSign, AlertCircle,
@@ -163,6 +164,13 @@ export default function MyPolicies() {
   const expired = policies.filter(p =>  p.is_expired).length
   const expiring = policies.filter(p => !p.is_expired && p.days_to_expiry <= 30).length
 
+  const stats = [
+    { icon: Shield,       label: 'Total Policies', value: policies.length, color: '#4F46E5', bg: 'rgba(79,70,229,0.12)'  },
+    { icon: CheckCircle2, label: 'Active',         value: active,          color: '#10B981', bg: 'rgba(16,185,129,0.12)' },
+    { icon: AlertCircle,  label: 'Expiring Soon',  value: expiring,        color: '#F59E0B', bg: 'rgba(245,158,11,0.12)' },
+    { icon: Clock,        label: 'Expired',        value: expired,         color: '#EF4444', bg: 'rgba(239,68,68,0.12)'  },
+  ]
+
   return (
     <motion.div initial="hidden" animate="visible" variants={stagger}>
       {/* Heading */}
@@ -184,18 +192,13 @@ export default function MyPolicies() {
 
       {/* Summary stats */}
       {!loading && policies.length > 0 && (
-        <motion.div variants={fadeUp} className="stats-grid" style={{ marginBottom: 24 }}>
-          {[
-            { icon: Shield,       label: 'Total Policies', value: policies.length, color: '#4F46E5', bg: 'rgba(79,70,229,0.12)'  },
-            { icon: CheckCircle2, label: 'Active',         value: active,          color: '#10B981', bg: 'rgba(16,185,129,0.12)' },
-            { icon: AlertCircle,  label: 'Expiring Soon',  value: expiring,        color: '#F59E0B', bg: 'rgba(245,158,11,0.12)' },
-            { icon: Clock,        label: 'Expired',        value: expired,         color: '#EF4444', bg: 'rgba(239,68,68,0.12)'  },
-          ].map(s => (
-            <div key={s.label} className="stat-card">
+        <motion.div variants={fadeUp} className="stats-grid">
+          {stats.map(s => (
+            <Card key={s.label} className="stat-card border-none bg-card/50">
               <div className="stat-card-icon" style={{ background: s.bg }}><s.icon size={20} color={s.color}/></div>
-              <div className="stat-value" style={{ color: s.color }}>{s.value}</div>
+              <div className="stat-value" style={{ color: s.color, marginTop: '12px' }}>{s.value}</div>
               <div className="stat-label">{s.label}</div>
-            </div>
+            </Card>
           ))}
         </motion.div>
       )}

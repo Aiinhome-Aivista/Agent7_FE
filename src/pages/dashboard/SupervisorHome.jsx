@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { BarChart3, TrendingUp, TrendingDown, CheckCircle2, Clock, AlertTriangle, Star, Zap } from 'lucide-react'
+import { BarChart3, TrendingUp, CheckCircle2, Clock, AlertTriangle, Star, Zap } from 'lucide-react'
+import { Card } from '../../components/ui/Card'
 
 const KPI_TREND = [
   { date:'Nov 10', stp:100, tat:45, fraud:0.052 },
@@ -43,7 +44,7 @@ export default function SupervisorHome() {
       {/* KPI Cards */}
       <motion.div variants={fadeUp} className="stats-grid" style={{ gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))' }}>
         {kpis.map(k => (
-          <div key={k.label} className="stat-card">
+          <Card key={k.label} className="stat-card border-none bg-card/50" style={{ padding: '20px' }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
               <div className="stat-card-icon" style={{ background:k.bg }}>
                 <k.icon size={18} color={k.color}/>
@@ -53,14 +54,14 @@ export default function SupervisorHome() {
             <div className="stat-value" style={{ color:k.color, fontSize:'1.7rem' }}>{k.value}</div>
             <div className="stat-label">{k.label}</div>
             <div className={`stat-delta ${k.up ? 'up' : 'down'}`}>{k.delta}</div>
-          </div>
+          </Card>
         ))}
       </motion.div>
 
       {/* KPI trend sparklines (text-based since no chart lib yet) */}
       <motion.div variants={fadeUp} style={{ marginBottom:24 }}>
         <div className="dash-section-title"><TrendingUp size={16} color="#10B981"/> STP Rate Trend (Last 5 Days)</div>
-        <div className="stat-card">
+        <Card className="stat-card border-none bg-card/50" style={{ padding: '20px' }}>
           <div style={{ display:'flex', alignItems:'flex-end', gap:12, height:80 }}>
             {KPI_TREND.map(d => (
               <div key={d.date} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', gap:4 }}>
@@ -75,13 +76,13 @@ export default function SupervisorHome() {
               </div>
             ))}
           </div>
-        </div>
+        </Card>
       </motion.div>
 
       {/* Agent performance table */}
       <motion.div variants={fadeUp}>
         <div className="dash-section-title"><Zap size={16} color="#4F46E5"/> Agent Performance Matrix</div>
-        <div className="dash-table-wrap">
+        <Card className="dash-table-wrap" style={{ padding: 0 }}>
           <table className="dash-table">
             <thead>
               <tr><th>Agent</th><th>Success Rate</th><th>Avg Latency</th><th>Status</th></tr>
@@ -108,7 +109,7 @@ export default function SupervisorHome() {
               ))}
             </tbody>
           </table>
-        </div>
+        </Card>
       </motion.div>
     </motion.div>
   )

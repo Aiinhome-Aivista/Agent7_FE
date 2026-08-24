@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Shield, Car, Home, Heart, Briefcase, FileText, ChevronDown, ChevronRight } from 'lucide-react'
 import { useClaims } from '../../hooks/useClaims'
 import { LoadingState, ErrorState, EmptyState } from '../../components/StateViews'
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../../components/ui/Table'
+import { Badge } from '../../components/ui/Badge'
+import { Button } from '../../components/ui/Button'
 import api from '../../services/api'
 
 const PRIORITY_COLOR = { low: '#10B981', medium: '#F59E0B', high: '#EF4444', critical: '#8B5CF6' }
@@ -129,9 +132,9 @@ export default function ClaimsList() {
                         <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700, color: 'var(--text)' }}>
                           {policyInfo ? `${policyInfo.insurance_company || 'Insurance'} — ${policyInfo.plan_name || 'Policy'}` : 'Other Policy'}
                         </h3>
-                        <span className="badge badge-info" style={{ fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px', height: 'fit-content' }}>
+                        <Badge variant="info">
                           {policyClaims.length} {policyClaims.length === 1 ? 'Claim' : 'Claims'}
-                        </span>
+                        </Badge>
                       </div>
                       <div style={{ display: 'flex', gap: '12px', marginTop: '4px', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                         <span>Policy No: <strong style={{ color: 'var(--text-muted)' }}>{policyInfo?.policy_number || `ID: ${policyId}`}</strong></span>
@@ -148,16 +151,16 @@ export default function ClaimsList() {
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     {policyInfo && (
-                      <button
-                        className="btn-ghost"
-                        style={{ fontSize: '0.78rem', padding: '6px 12px' }}
+                      <Button
+                        variant="ghost"
+                        className="h-8 px-3 text-xs"
                         onClick={(e) => {
                           e.stopPropagation()
                           navigate(`/dashboard/policies/${policyInfo.id}`)
                         }}
                       >
                         View Policy →
-                      </button>
+                      </Button>
                     )}
                     <div style={{ color: 'var(--text-dim)', display: 'flex', alignItems: 'center' }}>
                       {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
@@ -175,51 +178,52 @@ export default function ClaimsList() {
                       style={{ overflow: 'hidden' }}
                     >
                       {/* Table containing policy-specific claims */}
-                      <div className="dash-table-wrap" style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
-                        <table className="dash-table">
-                          <thead>
-                            <tr>
-                              <th>Claim #</th><th>Type</th><th>Incident Date</th><th>Initiated Date</th>
-                              <th>Channel</th><th>Priority</th><th>Status</th><th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
+                      <div className="mt-2">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Claim #</TableHead><TableHead>Type</TableHead><TableHead>Incident Date</TableHead><TableHead>Initiated Date</TableHead>
+                              <TableHead>Channel</TableHead><TableHead>Priority</TableHead><TableHead>Status</TableHead><TableHead></TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
                             {policyClaims.map(c => {
                               const st = STATUS_CONFIG[c.status] || { label: c.status, cls: 'badge-info' }
+                              const badgeVariant = st.cls ? st.cls.replace('badge-', '') : 'default'
                               return (
-                                <tr key={c.id}>
-                                  <td><code style={{ color: 'var(--primary-light)', fontSize: '0.82rem' }}>{c.claim_number}</code></td>
-                                  <td style={{ textTransform: 'capitalize' }}>{c.claim_type.replace(/_/g, ' ')}</td>
-                                  <td style={{ color: 'var(--text-muted)' }}>
+                                <TableRow key={c.id}>
+                                  <TableCell><code style={{ color: 'var(--primary-light)', fontSize: '0.82rem' }}>{c.claim_number}</code></TableCell>
+                                  <TableCell style={{ textTransform: 'capitalize' }}>{c.claim_type.replace(/_/g, ' ')}</TableCell>
+                                  <TableCell style={{ color: 'var(--text-muted)' }}>
                                     {c.incident_date ? new Date(c.incident_date).toLocaleDateString('en-IN') : '—'}
-                                  </td>
-                                  <td style={{ color: 'var(--text-muted)' }}>
+                                  </TableCell>
+                                  <TableCell style={{ color: 'var(--text-muted)' }}>
                                     {c.created_at ? new Date(c.created_at).toLocaleDateString('en-IN') : '—'}
-                                  </td>
-                                  <td style={{ color: 'var(--text-muted)', textTransform: 'capitalize' }}>{c.channel}</td>
-                                  <td>
+                                  </TableCell>
+                                  <TableCell style={{ color: 'var(--text-muted)', textTransform: 'capitalize' }}>{c.channel}</TableCell>
+                                  <TableCell>
                                     <span style={{ color: PRIORITY_COLOR[c.priority], fontWeight: 600, fontSize: '0.8rem' }}>
                                       ● {c.priority?.charAt(0).toUpperCase() + c.priority?.slice(1)}
                                     </span>
-                                  </td>
-                                  <td><span className={`badge ${st.cls}`}>{st.label}</span></td>
-                                  <td>
-                                    <button
-                                      className="btn-ghost"
-                                      style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                                  </TableCell>
+                                  <TableCell><Badge variant={badgeVariant}>{st.label}</Badge></TableCell>
+                                  <TableCell>
+                                    <Button
+                                      variant="ghost"
+                                      className="h-8 px-3 text-xs"
                                       onClick={(e) => {
                                         e.stopPropagation()
                                         navigate(`/dashboard/claims/${c.id}`)
                                       }}
                                     >
                                       View →
-                                    </button>
-                                  </td>
-                                </tr>
+                                    </Button>
+                                  </TableCell>
+                                </TableRow>
                               )
                             })}
-                          </tbody>
-                        </table>
+                          </TableBody>
+                        </Table>
                       </div>
                     </motion.div>
                   )}

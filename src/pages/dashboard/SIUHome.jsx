@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { AlertTriangle, Search, ShieldAlert, Eye, TrendingUp, Loader2, CheckCircle2, ArrowRight } from 'lucide-react'
 import api from '../../services/api'
 import ClaimReviewDrawer from '../../components/ClaimReviewDrawer'
+import { Card } from '../../components/ui/Card'
 
 const RISK_CONFIG = {
   critical: { cls:'badge-danger',  label:'Critical' },
@@ -79,13 +80,13 @@ export default function SIUHome() {
 
       <motion.div variants={fadeUp} className="stats-grid">
         {stats.map(s => (
-          <div key={s.label} className="stat-card">
+          <Card key={s.label} className="stat-card border-none bg-card/50">
             <div className="stat-card-icon" style={{ background:s.bg }}>
               <s.icon size={20} color={s.color}/>
             </div>
             <div className="stat-value" style={{ color:s.color }}>{s.value}</div>
             <div className="stat-label">{s.label}</div>
-          </div>
+          </Card>
         ))}
       </motion.div>
 

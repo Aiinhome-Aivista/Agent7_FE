@@ -11,9 +11,9 @@
 }
 .sidebar-logo {
   display: flex; align-items:center; gap:10px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 .sidebar-role-badge {
   display: inline-block;

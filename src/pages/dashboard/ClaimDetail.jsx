@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import api from '../../services/api'
 import { LoadingState, ErrorState } from '../../components/StateViews'
+import { Card } from '../../components/ui/Card'
 import toast from 'react-hot-toast'
 import { useAuthStore } from '../../store/authStore'
 
@@ -335,13 +336,13 @@ export default function ClaimDetail() {
           { icon: PieChart, label: 'Coverage remaining', value: claim.policy_remaining_capacity },
           { icon: ClipboardCheck, label: 'Adjuster recommended', value: claim.adjuster_recommended_amount },
         ].map(item => (
-          <div key={item.label} className="stat-card" style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: '14px 16px' }}>
+          <Card key={item.label} className="stat-card border-none" style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: '14px 16px', display: 'flex' }}>
             <item.icon size={18} color="var(--primary-light)" />
             <div>
               <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginBottom: 2 }}>{item.label}</div>
               <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text)' }}>{item.value}</div>
             </div>
-          </div>
+          </Card>
         ))}
       </motion.div>
 
@@ -351,7 +352,7 @@ export default function ClaimDetail() {
           <div className="dash-section-title" style={{ color: 'var(--warning)', display: 'flex', alignItems: 'center', gap: 6 }}>
             ⚠️ Action Required: Additional Documents Requested
           </div>
-          <div className="stat-card" style={{ padding: '20px', border: '1px solid rgba(245,158,11,0.3)', background: 'rgba(245,158,11,0.03)' }}>
+          <Card className="stat-card border border-[rgba(245,158,11,0.3)] bg-[rgba(245,158,11,0.03)]" style={{ padding: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 12 }}>
               <div>
                 <span style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--warning)', letterSpacing: '0.05em' }}>
@@ -463,7 +464,7 @@ export default function ClaimDetail() {
                 Waiting for the policyholder to upload the requested files.
               </div>
             )}
-          </div>
+          </Card>
         </motion.div>
       )}
 
@@ -471,11 +472,11 @@ export default function ClaimDetail() {
       {claim.incident_description && (
         <motion.div variants={{ hidden: { y: 20 }, visible: { y: 0 } }} style={{ marginBottom: 24 }}>
           <div className="dash-section-title"><FileText size={14} color="var(--primary-light)" /> Description</div>
-          <div className="stat-card" style={{ padding: '16px 20px' }}>
+          <Card className="stat-card border-none bg-card/50" style={{ padding: '16px 20px' }}>
             <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>
               {claim.incident_description}
             </p>
-          </div>
+          </Card>
         </motion.div>
       )}
 
@@ -495,7 +496,7 @@ export default function ClaimDetail() {
               const token = JSON.parse(localStorage.getItem('claimai-auth') || '{}')?.state?.token || ''
               const docUrl = `http://localhost:8000/api/claims/${id}/documents/${doc.id}?token=${token}`
               return (
-                <div key={doc.id} className="stat-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px' }}>
+                <Card key={doc.id} className="stat-card border-none bg-card/50" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
                     <FileText size={20} style={{ color: 'var(--primary-light)', flexShrink: 0 }} />
                     <div style={{ minWidth: 0 }}>
@@ -544,7 +545,7 @@ export default function ClaimDetail() {
                   >
                     View <ExternalLink size={12} />
                   </a>
-                </div>
+                </Card>
               )
             })}
           </div>
@@ -554,7 +555,7 @@ export default function ClaimDetail() {
       {/* Visual pipeline tracker */}
       <motion.div variants={{ hidden: { y: 20 }, visible: { y: 0 } }} style={{ marginBottom: 24 }}>
         <div className="dash-section-title"><Activity size={14} color="var(--primary-light)"/> Claim Status Pipeline</div>
-        <div className="stat-card">
+        <Card className="stat-card border-none bg-card/50" style={{ padding: '20px' }}>
           {PIPELINE_STEPS.map((step, i) => {
             const isClaimFinalized = claim.status === 'settled' || claim.status === 'rejected' || claim.status === 'closed'
             const done = isClaimFinalized ? i <= stepIdx : i < stepIdx
@@ -592,7 +593,7 @@ export default function ClaimDetail() {
               </div>
             )
           })}
-        </div>
+        </Card>
       </motion.div>
 
       {/* Agent trace (if pipeline was run) */}

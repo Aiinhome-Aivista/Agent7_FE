@@ -7,6 +7,8 @@ import {
 import { useAuthStore } from '../store/authStore'
 import { useNotificationsStore } from '../store/notificationsStore'
 import toast from 'react-hot-toast'
+import { Button } from './ui/Button'
+import { Avatar } from './ui/Avatar'
 import './Sidebar.css'
 
 const NAV_BY_ROLE = {
@@ -39,11 +41,11 @@ const NAV_BY_ROLE = {
 }
 
 const ROLE_COLOR = {
-  policyholder: '#06B6D4',
-  adjuster: '#4F46E5',
-  siu_investigator: '#8B5CF6',
-  supervisor: '#10B981',
-  it_ops: '#F59E0B',
+  policyholder: 'var(--primary)',
+  adjuster: 'var(--primary)',
+  siu_investigator: 'var(--primary)',
+  supervisor: 'var(--primary)',
+  it_ops: 'var(--primary)',
 }
 
 const ROLE_LABEL = {
@@ -59,7 +61,7 @@ export default function Sidebar({ role }) {
   const user = useAuthStore(s => s.user)
   const navigate = useNavigate()
   const navItems = NAV_BY_ROLE[role] || []
-  const color = ROLE_COLOR[role] || '#4F46E5'
+  const color = ROLE_COLOR[role] || 'var(--primary)'
   const unreadCount = useNotificationsStore(s => s.unreadCount)
 
   function handleLogout() {
@@ -72,7 +74,7 @@ export default function Sidebar({ role }) {
     <aside className="sidebar">
       {/* Logo */}
       <div className="sidebar-logo">
-        <div className="logo-icon" style={{ background: `linear-gradient(135deg,${color}99,${color})` }}>
+        <div className="logo-icon" style={{ background: `linear-gradient(135deg, color-mix(in srgb, ${color} 60%, transparent), ${color})` }}>
           <Shield size={16} />
         </div>
         <span className="logo-text">Claim<span className="gradient-text">AI</span></span>
@@ -110,9 +112,11 @@ export default function Sidebar({ role }) {
       {/* User + logout */}
       <div className="sidebar-footer">
         <div className="sidebar-user">
-          <div className="sidebar-avatar" style={{ background: `linear-gradient(135deg,${color}55,${color})` }}>
-            {user?.full_name?.[0] || '?'}
-          </div>
+          <Avatar 
+            fallback={user?.full_name?.[0] || '?'} 
+            // className="w-8 h-8 font-bold text-white shadow-sm"
+            style={{ background: `linear-gradient(135deg, color-mix(in srgb, ${color} 50%, transparent), ${color})` }}
+          />
           <div className="sidebar-user-info">
             <div className="sidebar-user-name">{user?.full_name}</div>
             <div className="sidebar-user-role">{user?.email}</div>

@@ -1,3 +1,4 @@
+import { Button } from '../../components/ui/Button';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Send, Bot, User, FileText, BookOpen, CheckCircle2,
@@ -163,8 +164,8 @@ function ClaimIntakeWidget({
             <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)', marginTop: 2 }}>{result.outcome_msg}</div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <a 
-              href={`/dashboard/claims/${result.claim_id}`} 
+            <a
+              href={`/dashboard/claims/${result.claim_id}`}
               style={{ color: '#818cf8', fontSize: '0.8rem', fontWeight: 700, textDecoration: 'underline' }}
             >
               {result.claim_number}
@@ -279,14 +280,14 @@ function ClaimIntakeWidget({
                 <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 6, padding: '6px 10px', fontSize: '0.78rem' }}>
                   <FileText size={14} style={{ color: '#818cf8' }} />
                   <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file.name}</span>
-                  <button onClick={() => removeFile(idx)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', padding: 2 }}>
+                  <Button onClick={() => removeFile(idx)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', padding: 2 }}>
                     <X size={12} />
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <button
+              <Button
                 onClick={() => fileRef.current?.click()}
                 style={{
                   background: 'rgba(255,255,255,0.05)',
@@ -295,8 +296,8 @@ function ClaimIntakeWidget({
                 }}
               >
                 + Add File
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => { setFiles([]); setExtracted(null); }}
                 style={{
                   background: 'none',
@@ -305,12 +306,12 @@ function ClaimIntakeWidget({
                 }}
               >
                 Clear All
-              </button>
+              </Button>
             </div>
           </div>
         )}
         <input ref={fileRef} type="file" multiple hidden accept=".pdf,.jpg,.jpeg,.png,.txt,.doc,.docx" onChange={e => { if (e.target.files) handleFiles(e.target.files); e.target.value = ''; }} />
-        
+
         <div style={{ marginTop: 8, fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center', gap: 4 }}>
           <Sparkles size={10} style={{ color: '#818cf8' }} />
           <span>Required: CLAIM FORM, MEDICAL REPORT, TEST REPORT, ID CARD.</span>
@@ -319,7 +320,7 @@ function ClaimIntakeWidget({
 
       {/* Extract action */}
       {files.length > 0 && !extracted && !extracting && (
-        <button
+        <Button
           onClick={triggerExtraction}
           disabled={!selectedPol}
           style={{
@@ -330,7 +331,7 @@ function ClaimIntakeWidget({
           }}
         >
           <Sparkles size={12} /> Extract Claim Details
-        </button>
+        </Button>
       )}
 
       {/* Extracting Spinner */}
@@ -398,7 +399,7 @@ function ClaimIntakeWidget({
           {/* Action buttons */}
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
             {hasAllSuggested ? (
-              <button
+              <Button
                 onClick={handleSubmit}
                 disabled={submitting}
                 style={{
@@ -411,9 +412,9 @@ function ClaimIntakeWidget({
               >
                 {submitting ? <Loader2 size={12} className="spin-icon" /> : <Send size={12} />}
                 <span>Submit Claim</span>
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
                 onClick={() => fileRef.current?.click()}
                 style={{
                   flex: 1,
@@ -425,9 +426,9 @@ function ClaimIntakeWidget({
               >
                 <Upload size={12} />
                 <span>Upload Missing Docs</span>
-              </button>
+              </Button>
             )}
-            <button
+            <Button
               onClick={() => { setExtracted(null); }}
               style={{
                 background: 'rgba(255,255,255,0.05)',
@@ -436,7 +437,7 @@ function ClaimIntakeWidget({
               }}
             >
               Back
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -635,13 +636,12 @@ export default function RagChat() {
       <aside className={`chat-history-sidebar ${collapsed ? 'collapsed' : ''}`}>
 
         {/* collapse toggle */}
-        <button
-          className="sidebar-collapse-btn"
+        <Button variant="default" size="icon" className="sidebar-collapse-btn"
           onClick={() => setCollapsed(v => !v)}
           title={collapsed ? 'Expand' : 'Collapse'}
         >
           {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
-        </button>
+        </Button>
 
         <AnimatePresence>
           {!collapsed && (
@@ -658,9 +658,9 @@ export default function RagChat() {
                   <MessageSquare size={13} />
                   Chat History
                 </span>
-                <button className="new-chat-btn" onClick={newSession} title="New session">
+                <Button variant="outline" size="sm" className="new-chat-btn" onClick={newSession} title="New session">
                   <Plus size={13} /> New
-                </button>
+                </Button>
               </div>
 
               {/* session list */}
@@ -693,13 +693,12 @@ export default function RagChat() {
                           )}
                         </span>
                       </div>
-                      <button
-                        className="session-del-btn"
+                      <Button variant="ghost" size="icon" className="session-del-btn"
                         onClick={e => deleteSession(e, s.id)}
                         title="Delete"
                       >
                         <Trash2 size={11} />
-                      </button>
+                      </Button>
                     </div>
                   ))
                 )}
@@ -729,10 +728,10 @@ export default function RagChat() {
                 : 'Ask questions to search through your extracted knowledge base, policies, and claims.'}
             </p>
           </div>
-          <button className="clear-chat-btn" onClick={handleNewChat} title="New Chat">
+          <Button variant="outline" size="sm" className="clear-chat-btn" onClick={handleNewChat} title="New Chat">
             <Plus size={16} />
             <span>New Chat</span>
-          </button>
+          </Button>
         </div>
 
         {/* chat window */}
@@ -768,11 +767,11 @@ export default function RagChat() {
                       {/* Quick starter button for Welcome message */}
                       {msg.id === 'welcome' && (
                         <div style={{ marginTop: 10 }}>
-                          <button
+                          <Button
                             onClick={triggerIntakeFlow}
                             style={{
-                              background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
-                              color: '#fff',
+                              background: 'linear-gradient(135deg, color-mix(in srgb, var(--primary) 50%, transparent), var(--primary))',
+                              color: 'var(--primary-foreground)',
                               border: 'none',
                               borderRadius: 8,
                               padding: '8px 14px',
@@ -782,12 +781,12 @@ export default function RagChat() {
                               display: 'inline-flex',
                               alignItems: 'center',
                               gap: 6,
-                              boxShadow: '0 2px 8px rgba(79,70,229,0.3)'
+                              boxShadow: '0 2px 8px color-mix(in srgb, var(--primary) 30%, transparent)'
                             }}
                           >
                             <Sparkles size={13} />
                             File a New Claim
-                          </button>
+                          </Button>
                         </div>
                       )}
 
@@ -871,13 +870,13 @@ export default function RagChat() {
               disabled={loading || msgsLoading}
               className="chat-input"
             />
-            <button
+            <Button
               type="submit"
               disabled={!input.trim() || loading || msgsLoading}
               className="send-button"
             >
               <Send size={20} />
-            </button>
+            </Button>
           </form>
         </div>
       </motion.div>
