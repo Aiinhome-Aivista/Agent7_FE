@@ -39,7 +39,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   position: relative;
   z-index: 1;
 }
@@ -50,11 +50,26 @@
   position: relative;
   z-index: 1;
 }
-.login-container.form-mode { max-width: 440px; }
+.login-container.form-mode { 
+  max-width: 440px;
+  background: var(--surface);
+  padding: 20px 20px;
+  border-radius: var(--radius-xl, 24px);
+  box-shadow: var(--shadow-card, 0 10px 40px rgba(0, 0, 0, 0.1));
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 480px) {
+  .login-container.form-mode {
+    padding: 24px 20px;
+    border-radius: var(--radius-lg, 16px);
+  }
+}
 
 .login-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 .login-title {
   font-size: 1.9rem;

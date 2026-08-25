@@ -74,10 +74,10 @@ export default function Sidebar({ role }) {
     <aside className="sidebar">
       {/* Logo */}
       <div className="sidebar-logo">
-        <div className="logo-icon" style={{ background: `linear-gradient(135deg, color-mix(in srgb, ${color} 60%, transparent), ${color})` }}>
+        <div className="logo-icon text-white" style={{ background: `linear-gradient(135deg, color-mix(in srgb, ${color} 60%, transparent), ${color})` }}>
           <Shield size={16} />
         </div>
-        <span className="logo-text">Claim<span className="gradient-text">AI</span></span>
+        <span className="logo-text text-white">Claim<span className="gradient-text">AI</span></span>
       </div>
 
       {/* Role badge */}
@@ -118,7 +118,7 @@ export default function Sidebar({ role }) {
             style={{ background: `linear-gradient(135deg, color-mix(in srgb, ${color} 50%, transparent), ${color})` }}
           />
           <div className="sidebar-user-info">
-            <div className="sidebar-user-name">{user?.full_name}</div>
+            <div className="font-bold text-white line-clamp-1">{user?.full_name}</div>
             <div className="sidebar-user-role">{user?.email}</div>
           </div>
         </div>

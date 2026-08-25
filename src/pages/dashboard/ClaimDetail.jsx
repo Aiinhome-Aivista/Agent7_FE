@@ -686,8 +686,8 @@ export default function ClaimDetail() {
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
               style={{
-                background: '#12131A',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'var(--surface)',
+                border: '1px solid var(--border)',
                 borderRadius: 20,
                 width: '90%',
                 maxWidth: 550,
@@ -702,9 +702,9 @@ export default function ClaimDetail() {
               {/* Modal Sticky Header */}
               <div style={{
                 padding: '24px 30px 16px 30px',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+                borderBottom: '1px solid var(--border)',
                 position: 'relative',
-                background: '#12131A',
+                background: 'var(--surface)',
                 zIndex: 10,
               }}>
                 {/* Modal Close Button */}
@@ -714,8 +714,8 @@ export default function ClaimDetail() {
                     position: 'absolute',
                     top: 20,
                     right: 20,
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    background: 'var(--bg-card)',
+                    border: '1px solid var(--border)',
                     borderRadius: '50%',
                     width: 32,
                     height: 32,
@@ -732,11 +732,11 @@ export default function ClaimDetail() {
                   <X size={16} />
                 </button>
 
-                <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', display: 'flex', alignItems: 'center', gap: 10, margin: 0 }}>
-                  <Activity size={20} color="var(--accent)" /> Claim Progress Flow
+                <h2 className="text-xl font-extrabold text-foreground flex items-center gap-[10px] m-0">
+                  <Activity size={20} style={{color:"var(--accent)"}}/> Claim Progress Flow
                 </h2>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>
-                  Tracking claim <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{claim.claim_number}</span> milestones and timeline.
+                <p className="text-[0.8rem] text-muted-foreground mt-1 mb-0">
+                  Tracking claim <span className="text-primary font-semibold">{claim.claim_number}</span> milestones and timeline.
                 </p>
               </div>
 
@@ -795,7 +795,7 @@ export default function ClaimDetail() {
                         {/* Step Information */}
                         <div style={{ flex: 1 }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 6 }}>
-                            <h4 style={{ margin: 0, fontSize: '0.92rem', fontWeight: 700, color: isRejectedNode ? '#EF4444' : isApprovedNode ? '#10B981' : isCompleted ? '#fff' : 'var(--text-muted)' }}>
+                            <h4 style={{ margin: 0, fontSize: '0.92rem', fontWeight: 700, color: isRejectedNode ? '#EF4444' : isApprovedNode ? '#10B981' : isCompleted ? 'var(--accent)' : 'var(--text-muted)' }}>
                               {step.title}
                             </h4>
                             <span style={{

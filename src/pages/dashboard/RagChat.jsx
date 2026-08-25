@@ -718,7 +718,7 @@ export default function RagChat() {
         {/* header */}
         <div className="chat-header">
           <div>
-            <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-muted flex items-center gap-2">
               <FileText className="text-cyan-400" />
               Speak to ClaimAI
             </h1>

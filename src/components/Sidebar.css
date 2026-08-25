@@ -2,7 +2,7 @@
 .sidebar {
   width: 240px;
   min-height: 100vh;
-  background: var(--bg-card);
+  background: var(--bg-card2);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -81,13 +81,6 @@
   font-size: 0.95rem;
   color: #fff;
   flex-shrink: 0;
-}
-.sidebar-user-name {
-  font-size: 0.85rem;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .sidebar-user-role {
   font-size: 0.72rem;

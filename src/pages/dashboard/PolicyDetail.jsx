@@ -1121,14 +1121,14 @@ export default function PolicyDetail() {
             )}
 
             {category === 'claims_history' && (
-              <div style={{ background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, padding:'18px 20px' }}>
+              <div style={{ background:'linear-gradient(135deg, rgba(79,70,229,0.06) 0%, rgba(6,182,212,0.06) 100%)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, padding:'18px 20px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:16, borderBottom:'1px solid rgba(255,255,255,0.06)', paddingBottom:12 }}>
                   <Activity size={16} color="var(--accent)" />
                   <span style={{ fontWeight:700, fontSize:'0.88rem', color:'var(--text)' }}>Claims History for this Policy</span>
                 </div>
 
                 {claims.length > 0 ? (
-                  <div style={{ overflowX: 'auto', background: 'rgba(0, 0, 0, 0.15)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ overflowX: 'auto', background:'linear-gradient(135deg, rgba(79,70,229,0.06) 0%, rgba(6,182,212,0.06) 100%)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)' }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', textAlign: 'left' }}>
                       <thead>
                         <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
