@@ -3,7 +3,7 @@ dist
 build
 coverage
 *.log
-.env
+# .env
 .DS_Store
 .idea
 .vscode
