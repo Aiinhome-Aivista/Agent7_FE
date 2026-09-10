@@ -17,13 +17,13 @@ const modalVariants = {
 };
 
 const getVisualizerUrl = (docId) => {
-  const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+  const apiBase = import.meta.env.VITE_API_URL;
   const host = apiBase.replace(/\/api$/, '');
   return `${host}/api/knowledge-graph/visualize/${docId}`;
 };
 
 const getStaticGraphUrl = (docId) => {
-  const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+  const apiBase = import.meta.env.VITE_API_URL;
   const host = apiBase.replace(/\/api$/, '');
   return `${host}/uploads/graphs/graph_doc_{doc_id}.html`.replace('{doc_id}', docId);
 };

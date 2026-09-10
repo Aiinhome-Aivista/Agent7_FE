@@ -365,7 +365,7 @@ if (res.data?.missing_categories?.length > 0) {
               <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>Step 2 — Upload Claim Document</span>
             </div>
             <a
-              href="http://localhost:8000/api/fnol/sample-form"
+              href={`${import.meta.env.VITE_API_URL}/fnol/sample-form`}
               download
               target="_blank"
               rel="noopener noreferrer"

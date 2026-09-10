@@ -42,7 +42,8 @@ function Section({ title, icon: Icon, children }) {
 /* ── Document viewer ── */
 function DocViewer({ policyId, hasDocument, fileName }) {
   const token = useAuthStore.getState().token || ''
-  const docUrl = `http://localhost:8000/api/policies/${policyId}/document`
+  const apiUrl = import.meta.env.VITE_API_URL
+  const docUrl = `${apiUrl}/policies/${policyId}/document`
 
   if (!hasDocument) return (
     <div style={{ textAlign:'center', padding:'48px 0', color:'var(--text-dim)' }}>

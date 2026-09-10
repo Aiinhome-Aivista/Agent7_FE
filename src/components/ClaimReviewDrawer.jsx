@@ -216,8 +216,8 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
                             id_card: '🆔 ID Card',
                             other: '📄 Other Document'
                           }
-                          const token = JSON.parse(localStorage.getItem('claimai-auth') || '{}')?.state?.token || ''
-                          const docUrl = `http://localhost:8000/api/claims/${claimId}/documents/${doc.id}?token=${token}`
+                          const apiUrl = import.meta.env.VITE_API_URL
+                          const docUrl = `${apiUrl}/claims/${claimId}/documents/${doc.id}?token=${token}`
                           return (
                             <div key={doc.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 8, padding: '8px 12px', fontSize: '0.8rem' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
@@ -256,7 +256,7 @@ export default function ClaimReviewDrawer({ claimId, onClose, onDecision }) {
                       </div>
                     </div>
                   ) : claim.document_url && (
-                    <a href={`http://localhost:8000${claim.document_url}?token=${JSON.parse(localStorage.getItem('claimai-auth') || '{}')?.state?.token || ''}`} target="_blank" rel="noopener noreferrer"
+                    <a href={`${import.meta.env.VITE_BASE_URL}${claim.document_url}?token=${JSON.parse(localStorage.getItem('claimai-auth') || '{}')?.state?.token || ''}`} target="_blank" rel="noopener noreferrer"
                       style={{ display:'inline-flex', alignItems:'center', gap:6, marginTop:10,
                         padding:'7px 14px', borderRadius:8, fontSize:'0.8rem', fontWeight:600,
                         background:'rgba(99,102,241,0.1)', border:'1px solid rgba(99,102,241,0.25)',

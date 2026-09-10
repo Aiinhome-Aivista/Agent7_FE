@@ -302,7 +302,7 @@ export default function ClaimDetail() {
           <span className={`badge ${stCls}`}>{STATUS_LABEL[claim.status] || claim.status}</span>
           {claim.document_url && (
             <a
-              href={`http://localhost:8000${claim.document_url}?token=${JSON.parse(localStorage.getItem('claimai-auth') || '{}')?.state?.token || ''}`}
+              href={`${import.meta.env.VITE_BASE_URL}${claim.document_url}?token=${JSON.parse(localStorage.getItem('claimai-auth') || '{}')?.state?.token || ''}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -493,8 +493,8 @@ export default function ClaimDetail() {
                 id_card: '🆔 ID Card',
                 other: '📄 Other Document'
               }
-              const token = JSON.parse(localStorage.getItem('claimai-auth') || '{}')?.state?.token || ''
-              const docUrl = `http://localhost:8000/api/claims/${id}/documents/${doc.id}?token=${token}`
+              const apiUrl = import.meta.env.VITE_API_URL
+              const docUrl = `${apiUrl}/claims/${id}/documents/${doc.id}?token=${token}`
               return (
                 <Card key={doc.id} className="stat-card border-none bg-card/50" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
